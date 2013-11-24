@@ -1,0 +1,32 @@
+{% load staticfiles %}
+
+<div id="comments-wrapper">
+    <h3 style="text-align: center;">Отзывы</h3>
+    {% if  url_comment_add %}
+    <a href="{{ url_comment_add }}" class="btn">Добавить отзыв</a>
+    {% endif %}
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|safe }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <div id="comments">
+    {% for comment in comments %}
+        {% include "ineo/comment_item.html" %}
+
+        {% if comment.has_descendant %}
+            {% for comment in comment.children.all %}
+            {% with sublevel=True %}
+            <div class="comment-descendant">
+                {% include "ineo/comment_item.html" %}
+            </div>
+            {% endwith %}
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+    </div>
+</div>

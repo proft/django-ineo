@@ -1,0 +1,7 @@
+*.pyc
+*.po
+*.wsgi
+*.swp
+.ropeproject
+.venv
+

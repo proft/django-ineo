@@ -1,0 +1,15 @@
+<div class="panel panel-default comment">
+    <div class="panel-body">{{ comment.comment }}</div>
+    <div class="panel-footer">
+        <i class="glyphicon glyphicon-user"></i>
+        {% if comment.email %}
+        <a href="mailto:{{ comment.email }}" class="comment-name">{{ comment.email }}</a>
+        {% else %}
+        <span class="comment-name">{{ comment.name }}</span>
+        {% endif %}
+        {% if not sublevel %}
+        <a href="{% url 'comment_reply' pk=comment.object_id ppk=comment.id %}" class="btn btn-default btn-xs comment-reply"><i class="glyphicon glyphicon-share-alt"></i> Ответить</a>
+        {% endif %}
+        <span class="comment-date"> <i class="glyphicon glyphicon-time"></i> {{ comment.cdate|date:'H:i d.m.Y' }}</span>
+    </div>
+</div>

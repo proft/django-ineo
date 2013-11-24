@@ -1,0 +1,8 @@
+#comments-wrapper {width: 50%; margin: 0 auto;}
+#comments-wrapper #id_captcha_1 {width: 100px !important;}
+#comments-wrapper img.captcha {vertical-align: middle;}
+#comments-wrapper #id_captcha_1 {display: inline;}
+#comments-wrapper .asteriskField {color: #b94a48;font-weight:bold;font-size:100%;padding-left: 5px;}
+#comments-wrapper .comment-date {float: right; font-size: 90%; color: #999;}
+#comments-wrapper .comment-reply {margin-left: 15px;}
+#comments-wrapper .comment-descendant {margin-left: 10%;}

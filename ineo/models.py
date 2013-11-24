@@ -1,0 +1,50 @@
+# -*- coding: utf-8 -*-
+from django.db import models
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes import generic
+
+MAX_COMMENT_LENGTH = 2000
+
+class VisibleManager(models.Manager):
+    def get_query_set(self):
+        return super(VisibleManager, self).get_query_set().filter(status=Comment.STATUS_PUBLIC)
+
+
+class Comment(models.Model):
+    STATUS_HIDDEN, STATUS_PUBLIC = range(2)
+    STATUS_CHOICES = (
+        (STATUS_HIDDEN, u'Скрыт'),
+        (STATUS_PUBLIC, u'Виден'),
+    )
+
+    name = models.CharField(u'Имя', max_length=100)
+    email = models.EmailField(u'E-Mail', blank=True)
+    comment = models.TextField(u'Отзыв')
+    cdate = models.DateTimeField(u'Дата добавления', auto_now_add=True)
+    status = models.PositiveSmallIntegerField(u'Статус', choices=STATUS_CHOICES, default=STATUS_PUBLIC)
+    parent = models.ForeignKey('self', blank=True, null=True, related_name='children', verbose_name=u'Родительский комментарий')
+    ip = models.GenericIPAddressField('IP', unpack_ipv4=True, blank=True, null=True)
+    content_type = models.ForeignKey(ContentType)
+    object_id = models.PositiveIntegerField()
+    content_object = generic.GenericForeignKey('content_type', 'object_id')
+
+    objects = models.Manager()
+    visible = VisibleManager()
+
+    class Meta:
+        verbose_name_plural = u'Комментарии'
+        verbose_name = u'комментарий'
+        ordering = ['-cdate']
+
+    def __unicode__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        self.comment = self.comment[:MAX_COMMENT_LENGTH]
+        super(Comment, self).save(*args, **kwargs)
+
+    def has_descendant(self):
+        return bool(self.children.count())
+
+    def is_descendant(self):
+        return True if self.parent else False
