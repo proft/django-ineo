@@ -55,7 +55,7 @@ django-ineo
     from django.contrib.contenttypes.models import ContentType
     from django.http import HttpResponseRedirect
     from django.contrib import messages
-    from ineo.forms import CommentAddForm
+    from ineo.forms import CommentAddForm, CommentReplyForm
 
 
     class AnimalCommentAddView(FormView):
