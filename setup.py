@@ -9,7 +9,7 @@ install_requires = [
 
 setup(
     name='django-ineo',
-    version=get_captcha_version(),
+    version=0.3,
     description='Simple comments for any model. Comments supported response with 2-level hierarchy.',
     long_description = open('README.rst').read(),
     keywords='comments, django',
