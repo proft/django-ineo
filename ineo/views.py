@@ -90,7 +90,7 @@ class IneoReplyView(FormView):
         for k, v in self.url_kwargs.items():
             _url_kwargs[k] = self.kwargs[v]
 
-        obj = get_object_or_404(self.model, **_url_kwargs)
+        self.obj = get_object_or_404(self.model, **_url_kwargs)
         parent = self.kwargs['pk']
         ctype = ContentType.objects.get_for_model(self.obj)
         init = {'content_type': ctype, 'object_id': self.obj.id, 'parent': parent}
