@@ -70,7 +70,7 @@ class IneoAddView(FormView):
             sender = settings.EMAIL_FROM
             subject = u"%s новый отзыв для %s" % (settings.EMAIL_SUBJECT_PREFIX, comment.content_object)
             message = u"Объект: %s\nИмя: %s\nEMail: %s\n\n%s\n\nУправление комментарием: %s" % (comment.content_object, comment.name, comment.email, comment.comment, edit_url)
-            send_mail(subject, message, sender, settings.EMAIL_RECIPIENTS)
+            send_mail(subject, message.encode('utf-8'), sender, settings.EMAIL_RECIPIENTS)
 
         messages.info(self.request, u'Спасибо, Ваш комментарий добавлен!')
         return HttpResponseRedirect(self.get_success_url())
