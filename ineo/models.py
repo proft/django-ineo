@@ -13,17 +13,18 @@ class VisibleManager(models.Manager):
 
 
 class Comment(models.Model):
-    STATUS_HIDDEN, STATUS_PUBLIC = range(2)
+    STATUS_HIDDEN, STATUS_PUBLIC, STATUS_NEW = range(3)
     STATUS_CHOICES = (
         (STATUS_HIDDEN, u'Скрыт'),
         (STATUS_PUBLIC, u'Виден'),
+        (STATUS_NEW, u'Новый'),
     )
 
     name = models.CharField(u'Имя', max_length=100)
     email = models.EmailField(u'E-Mail', blank=True)
     comment = models.TextField(u'Отзыв')
     cdate = models.DateTimeField(u'Дата добавления', auto_now_add=True)
-    status = models.PositiveSmallIntegerField(u'Статус', choices=STATUS_CHOICES, default=STATUS_PUBLIC)
+    status = models.PositiveSmallIntegerField(u'Статус', choices=STATUS_CHOICES, default=STATUS_NEW)
     parent = models.ForeignKey('self', blank=True, null=True, related_name='children', verbose_name=u'Родительский комментарий')
     ip = models.GenericIPAddressField('IP', unpack_ipv4=True, blank=True, null=True)
     content_type = models.ForeignKey(ContentType)
