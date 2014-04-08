@@ -2,6 +2,8 @@
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
+from django.core.urlresolvers import reverse
+
 
 MAX_COMMENT_LENGTH = 2000
 
@@ -48,3 +50,8 @@ class Comment(models.Model):
 
     def is_descendant(self):
         return True if self.parent else False
+
+    def get_reply_url(self):
+        url, kwargs = self.content_object.prepare_comment_reply_url()
+        kwargs['pk'] = self.pk
+        return reverse(url, kwargs=kwargs)
