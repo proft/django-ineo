@@ -33,6 +33,7 @@ django-ineo
 
     class Animal(models.Model):
         title = models.CharField("Title", max_length=50)
+        slug = models.SlugField(u'Slug')
         comments = generic.GenericRelation(Comment)
 
         class Meta:
@@ -43,7 +44,11 @@ django-ineo
             return self.title
 
         def get_comment_add_url(self):
-            return reverse('animals:comment_add', kwargs={'pk': self.pk})
+            return reverse('animals:comment_add', kwargs={'slug': self.slug})
+
+        def prepare_comment_reply_url(self):
+            return 'animals:comment-reply', {'slug': self.slug}
+            
 
 3. Описываем адреса для добавления комментариев и ответов на комментарии в urls.py
 
