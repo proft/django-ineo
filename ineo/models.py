@@ -10,7 +10,7 @@ MAX_COMMENT_LENGTH = 2000
 
 class CommentManager(models.Manager):
     def visible(self):
-        return super(VisibleManager, self).get_query_set().filter(status=Comment.STATUS_PUBLIC)
+        return super(CommentManager, self).get_query_set().filter(status=Comment.STATUS_PUBLIC)
 
 
 class Comment(models.Model):
