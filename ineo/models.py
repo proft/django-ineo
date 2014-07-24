@@ -7,8 +7,9 @@ from django.core.urlresolvers import reverse
 
 MAX_COMMENT_LENGTH = 2000
 
-class VisibleManager(models.Manager):
-    def get_query_set(self):
+
+class CommentManager(models.Manager):
+    def visible(self):
         return super(VisibleManager, self).get_query_set().filter(status=Comment.STATUS_PUBLIC)
 
 
@@ -31,8 +32,7 @@ class Comment(models.Model):
     object_id = models.PositiveIntegerField()
     content_object = generic.GenericForeignKey('content_type', 'object_id')
 
-    objects = models.Manager()
-    visible = VisibleManager()
+    objects = CommentManager()
 
     class Meta:
         verbose_name_plural = u'Комментарии'
